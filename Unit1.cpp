@@ -47,16 +47,55 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        Ball -> Left += Vx;
 
        // skucha od lewej paletki
-       if(Ball->Left >= LeftPaddle->Left + LeftPaddle->Width)
+       if(Ball->Left + Ball->Width <= LeftPaddle->Left + LeftPaddle->Width - 15)
+       {
+         BallTimer->Enabled = false;
+         Ball->Visible = false;
+       }
 
        // odbicie od gornej sciany
-       if (Ball -> Top <= Board -> Top) Vy *= -1;
-
+       if (Ball -> Top <= Board -> Top)
+       {
+                Vy *= -1;
+       }
        //odbicie od dolnej scianki
-       if (Ball->Top + Ball->Height >= LowerBound->Top) Vy *= -1;
+       if (Ball->Top + Ball->Height >= LowerBound->Top) {Vy *= -1; }
 
        // skucha od prawej paletki
-       if (Ball->Left + Ball->Height >= RightPaddle->Left) ;
+       if (Ball->Left + Ball->Width >= RightPaddle->Left + 15)
+       {
+                BallTimer->Enabled = false;
+                Ball->Visible = false;
+       }
+
+       //odbicie od  lewej paletki
+        else if(Ball->Top+Ball->Height/2 > LeftPaddle->Top && Ball->Top < LeftPaddle->Top+LeftPaddle->Height &&
+         Ball->Left < LeftPaddle->Left+LeftPaddle->Width)
+   {
+       if(Vx < 0)
+       {
+         Vx = - Vx;
+         //szybsze odbicie od lewej paletki
+         if(Ball->Top+Ball->Height/2 > LeftPaddle->Top+LeftPaddle->Height/2-45 &&
+         Ball->Top < LeftPaddle->Top+LeftPaddle->Height/2+45) Vx *= 1.2;
+       }
+       bounceCounter ++;
+   }
+      //odbicie od  prawej paletki
+  else if(Ball->Top+Ball->Height/2 > RightPaddle->Top &&
+   Ball->Top < RightPaddle->Top+RightPaddle->Height && Ball->Left+Ball->Width > RightPaddle->Left)
+   {
+       if(Vx > 0)
+       {
+         Vx = - Vx;
+         //szybsze odbicie
+         if(Ball->Top+Ball->Height/2 > RightPaddle->Top+RightPaddle->Height/2-45 &&
+         Ball->Top < RightPaddle->Top+RightPaddle->Height/2+45) Vx *= 1.2;
+       }
+        bounceCounter ++;
+   }
+
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::leftPaddleUpTimer(TObject *Sender)
