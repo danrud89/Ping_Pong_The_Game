@@ -1,8 +1,8 @@
 object Form1: TForm1
-  Left = 185
-  Top = 0
-  Width = 1106
-  Height = 735
+  Left = 207
+  Top = 13
+  Width = 911
+  Height = 616
   Align = alClient
   Caption = 'Form1'
   Color = clBtnFace
@@ -22,7 +22,7 @@ object Form1: TForm1
     Left = 24
     Top = 200
     Width = 1000
-    Height = 465
+    Height = 464
     Align = alCustom
     Brush.Color = clGray
   end
@@ -2076,6 +2076,97 @@ object Form1: TForm1
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFF}
     Transparent = True
+  end
+  object ScoreBoard: TLabel
+    Left = 350
+    Top = 80
+    Width = 300
+    Height = 38
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -33
+    Font.Name = 'Arial'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Pauza: TLabel
+    Left = 368
+    Top = 320
+    Width = 307
+    Height = 37
+    Caption = 'GRA ZATRZYMANA '
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -33
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    Visible = False
+    OnClick = PauzaClick
+  end
+  object Runda: TLabel
+    Left = 350
+    Top = 136
+    Width = 8
+    Height = 32
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -27
+    Font.Name = 'Arial'
+    Font.Style = []
+    ParentFont = False
+  end
+  object BounceCounter: TLabel
+    Left = 528
+    Top = 136
+    Width = 8
+    Height = 32
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -27
+    Font.Name = 'Arial'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Button1: TButton
+    Left = 400
+    Top = 240
+    Width = 200
+    Height = 50
+    Caption = 'Punkt dla gracza  lewego !'
+    TabOrder = 0
+    Visible = False
+    OnClick = Button1Click
+  end
+  object NewGame: TButton
+    Left = 32
+    Top = 40
+    Width = 150
+    Height = 50
+    Caption = 'Nowa Gra'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -27
+    Font.Name = 'Arial'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+    OnClick = NewGameClick
+  end
+  object EndGame: TButton
+    Left = 32
+    Top = 112
+    Width = 175
+    Height = 50
+    Caption = 'Koniec Gry'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -27
+    Font.Name = 'Arial'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 2
+    OnClick = EndGameClick
   end
   object BallTimer: TTimer
     Interval = 50

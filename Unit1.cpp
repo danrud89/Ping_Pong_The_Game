@@ -14,23 +14,13 @@
 TForm1 *Form1;
 int Vx = -8;
 int Vy = -8;
-AnsiString leftPlayerName = "";
-AnsiString rightPlayerName = "";
-unsigned int leftPlayerScore = 0;
-unsigned int rightPlayerScore = 0;
-unsigned int turnNumber = 1;
-unsigned int bounceCounter = 0;
-//---------------------------------------------------------------------------
-class Player
-{
-    std::string playerName;
-    std::string playerScores;
-    Player(std::string name = "", std::string score = "")
-    {
-          //this name -> playerName;
-          //this score -> playerScore;
-    }
-};
+AnsiString leftPlayerName = "ZIELONY";
+AnsiString rightPlayerName = "CZERWONY";
+int greenPlayerScore = 0;
+int redPlayerScore = 0;
+int turnNumber = 1;
+int bounceCounter = 0;
+bool isPlayerFailed = false;
 
 //---------------------------------------------------------------------------
 
@@ -40,17 +30,23 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 }
 //---------------------------------------------------------------------------
 
-
 void __fastcall TForm1::BallTimerTimer(TObject *Sender)
 {
        Ball -> Top += Vy;
        Ball -> Left += Vx;
-
-       // skucha od lewej paletki
-       if(Ball->Left + Ball->Width <= LeftPaddle->Left + LeftPaddle->Width - 15)
+       ScoreBoard->Caption = "ZIELONY    "+IntToStr(greenPlayerScore)+" : "+IntToStr(redPlayerScore)+"    CZERWONY";
+       Runda->Caption = "Runda : "+IntToStr(turnNumber);
+       BounceCounter->Caption = "Liczba odbiæ : " +IntToStr(bounceCounter);
+       // skucha lewej paletki
+       if(Ball->Left + Ball->Width <= LeftPaddle->Left + LeftPaddle->Width - 10)
        {
          BallTimer->Enabled = false;
          Ball->Visible = false;
+         Button1->Caption = "Punkt zdobywa gracz "+ rightPlayerName + "!";
+         redPlayerScore ++;
+         Button1->Visible = true;
+         isPlayerFailed = true;
+         turnNumber++;
        }
 
        // odbicie od gornej sciany
@@ -61,11 +57,16 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        //odbicie od dolnej scianki
        if (Ball->Top + Ball->Height >= LowerBound->Top) {Vy *= -1; }
 
-       // skucha od prawej paletki
-       if (Ball->Left + Ball->Width >= RightPaddle->Left + 15)
+       // skucha  prawej paletki
+       if (Ball->Left + Ball->Width >= RightPaddle->Left + RightPaddle->Width + 15)
        {
                 BallTimer->Enabled = false;
                 Ball->Visible = false;
+                Button1->Caption = "Punkt zdobywa gracz "+leftPlayerName+ "!";
+                greenPlayerScore ++;
+                Button1->Visible = true;
+                isPlayerFailed = true;
+                turnNumber++;
        }
 
        //odbicie od  lewej paletki
@@ -76,8 +77,12 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        {
          Vx = - Vx;
          //szybsze odbicie od lewej paletki
-         if(Ball->Top+Ball->Height/2 > LeftPaddle->Top+LeftPaddle->Height/2-45 &&
-         Ball->Top < LeftPaddle->Top+LeftPaddle->Height/2+45) Vx *= 1.2;
+         if(Ball->Top+Ball->Height/2 > LeftPaddle->Top+LeftPaddle->Height/2-60 &&
+         Ball->Top < LeftPaddle->Top+LeftPaddle->Height/2+30)
+         {
+             Vx *= 1.2;
+             Vy *= 1.2;
+         }
        }
        bounceCounter ++;
    }
@@ -89,13 +94,19 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        {
          Vx = - Vx;
          //szybsze odbicie
-         if(Ball->Top+Ball->Height/2 > RightPaddle->Top+RightPaddle->Height/2-45 &&
-         Ball->Top < RightPaddle->Top+RightPaddle->Height/2+45) Vx *= 1.2;
+         if(Ball->Top+Ball->Height/2 > RightPaddle->Top+RightPaddle->Height/2-60&&
+         Ball->Top < RightPaddle->Top+RightPaddle->Height/2+30)
+         {
+             Vx *= 1.2;
+             Vy *= 1.2;
+         }
        }
         bounceCounter ++;
    }
+   if(isPlayerFailed)
+   {
 
-
+   }
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::leftPaddleUpTimer(TObject *Sender)
@@ -112,7 +123,6 @@ void __fastcall TForm1::leftPaddleDownTimer(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-
 void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key,
       TShiftState Shift)
 {
@@ -120,6 +130,11 @@ void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key,
         if (Key == 'Z') leftPaddleDown -> Enabled = true;
         if (Key == VK_UP) rightPaddleUp -> Enabled = true;
         if (Key == VK_DOWN) rightPaddleDown -> Enabled = true;
+        if(Key == VK_SPACE)
+        {
+           BallTimer->Enabled = false;
+           Pauza->Visible=true;
+        }
 }
 //---------------------------------------------------------------------------
 
@@ -130,6 +145,11 @@ void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key,
         if (Key == 'Z') leftPaddleDown -> Enabled = false;
         if (Key == VK_UP) rightPaddleUp -> Enabled = false;
         if (Key == VK_DOWN) rightPaddleDown -> Enabled = false;
+        if(Key == VK_SPACE)
+        {
+           BallTimer->Enabled = true;
+           Pauza->Visible=false;
+        }
 }
 //---------------------------------------------------------------------------
 
@@ -144,6 +164,75 @@ void __fastcall TForm1::rightPaddleDownTimer(TObject *Sender)
 {
         if (RightPaddle -> Top + RightPaddle -> Height < LowerBound -> Top - 15)
         RightPaddle -> Top += 10;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+          Ball -> Left = Board->Width/2 ;
+          Ball -> Top = Board->Top + Board->Height/2  ;
+          Ball->Visible = true;
+          Vx = -8;
+          Vy = -8;
+          BallTimer->Enabled = true;
+          Button1->Visible=false;
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TForm1::NewGameClick(TObject *Sender)
+{
+      BallTimer -> Enabled = false;
+    if (Application -> MessageBox("Czy na pewno chcesz rozpocz¹æ grê od nowa?",
+        "PotwierdŸ", MB_YESNO | MB_ICONQUESTION) == IDYES)
+    {
+      turnNumber = 1;
+      bounceCounter = 0;
+      ScoreBoard->Caption = "ZIELONY    "+IntToStr(greenPlayerScore)+" : "+IntToStr(redPlayerScore)+"    CZERWONY";
+      Runda -> Caption = "Runda: " + IntToStr(turnNumber);
+      greenPlayerScore = 0;
+      redPlayerScore = 0;
+      LeftPaddle->Enabled = true;
+      RightPaddle->Enabled = true;
+      Ball -> Left = Board->Width/2 ;
+      Ball -> Top = Board->Top + Board->Height/2  ;
+      Ball->Visible = true;
+      Vx = -8;
+      Vy = -8;
+      BallTimer->Enabled = true;
+      Button1->Visible=false;
+    }
+    else
+    {
+     BallTimer -> Enabled = true;LeftPaddle->Enabled = true;
+      RightPaddle->Enabled = true;
+      Ball -> Left = Board->Width/2 ;
+      Ball -> Top = Board->Top + Board->Height/2  ;
+      Ball->Visible = true;
+      Vx = -8;
+      Vy = -8;
+      Button1->Visible=false;
+     }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::PauzaClick(TObject *Sender)
+{
+        BallTimer -> Enabled = false;
+        Application -> MessageBox("Wróciæ  do gry?", "Pauza", MB_OK);
+        BallTimer -> Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::EndGameClick(TObject *Sender)
+{
+        BallTimer -> Enabled = false;
+  if (Application -> MessageBox("Czy na pewno chcesz zakonczæ program?",
+        "PotwierdŸ", MB_YESNO | MB_ICONQUESTION) == IDYES)
+        {
+        Application -> Terminate();
+        }
+   BallTimer -> Enabled = true;
 }
 //---------------------------------------------------------------------------
 
