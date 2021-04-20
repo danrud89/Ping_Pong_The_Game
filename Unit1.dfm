@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 207
-  Top = 13
-  Width = 911
+  Left = 151
+  Top = 207
+  Width = 1178
   Height = 616
   Align = alClient
   Caption = 'Form1'
@@ -14,6 +14,7 @@ object Form1: TForm1
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnKeyUp = FormKeyUp
   PixelsPerInch = 96
@@ -44,7 +45,7 @@ object Form1: TForm1
     Left = 64
     Top = 376
     Width = 25
-    Height = 90
+    Height = 150
     Picture.Data = {
       07544269746D6170A6770000424DA67700000000000036000000280000003300
       0000C40000000100180000000000707700000000000000000000000000000000
@@ -1009,7 +1010,7 @@ object Form1: TForm1
     Left = 960
     Top = 376
     Width = 25
-    Height = 90
+    Height = 150
     Picture.Data = {
       07544269746D6170A6770000424DA67700000000000036000000280000003300
       0000C40000000100180000000000707700000000000000000000000000000000
@@ -2080,7 +2081,7 @@ object Form1: TForm1
   object ScoreBoard: TLabel
     Left = 350
     Top = 80
-    Width = 300
+    Width = 9
     Height = 38
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -2088,6 +2089,7 @@ object Form1: TForm1
     Font.Name = 'Arial'
     Font.Style = []
     ParentFont = False
+    Visible = False
   end
   object Pauza: TLabel
     Left = 368
@@ -2104,7 +2106,7 @@ object Form1: TForm1
     Visible = False
     OnClick = PauzaClick
   end
-  object Runda: TLabel
+  object RoundBoard: TLabel
     Left = 350
     Top = 136
     Width = 8
@@ -2115,6 +2117,7 @@ object Form1: TForm1
     Font.Name = 'Arial'
     Font.Style = []
     ParentFont = False
+    Visible = False
   end
   object BounceCounter: TLabel
     Left = 528
@@ -2128,7 +2131,7 @@ object Form1: TForm1
     Font.Style = []
     ParentFont = False
   end
-  object Button1: TButton
+  object ScorePoint: TButton
     Left = 400
     Top = 240
     Width = 200
@@ -2136,7 +2139,7 @@ object Form1: TForm1
     Caption = 'Punkt dla gracza  lewego !'
     TabOrder = 0
     Visible = False
-    OnClick = Button1Click
+    OnClick = ScorePointClick
   end
   object NewGame: TButton
     Left = 32
@@ -2154,8 +2157,8 @@ object Form1: TForm1
     OnClick = NewGameClick
   end
   object EndGame: TButton
-    Left = 32
-    Top = 112
+    Left = 952
+    Top = 40
     Width = 175
     Height = 50
     Caption = 'Koniec Gry'
@@ -2168,7 +2171,38 @@ object Form1: TForm1
     TabOrder = 2
     OnClick = EndGameClick
   end
+  object NextRound: TButton
+    Left = 32
+    Top = 104
+    Width = 153
+    Height = 41
+    Caption = 'Nast'#281'pna Runda'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -20
+    Font.Name = 'Arial'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 3
+    OnClick = NextRoundClick
+  end
+  object Hints: TButton
+    Left = 952
+    Top = 104
+    Width = 177
+    Height = 33
+    Caption = 'Hints'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -27
+    Font.Name = 'Arial'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 4
+    OnClick = HintsClick
+  end
   object BallTimer: TTimer
+    Enabled = False
     Interval = 50
     OnTimer = BallTimerTimer
   end

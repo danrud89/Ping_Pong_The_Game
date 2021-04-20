@@ -5,6 +5,8 @@
 
 #include "Unit1.h"
 #include "Markup.h"
+#include <windows.h>
+#include "mmsystem.h"
 #include <vector>
 #include <string.h>
 #include <algorithm>
@@ -20,7 +22,6 @@ int greenPlayerScore = 0;
 int redPlayerScore = 0;
 int turnNumber = 1;
 int bounceCounter = 0;
-bool isPlayerFailed = false;
 
 //---------------------------------------------------------------------------
 
@@ -34,19 +35,17 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
 {
        Ball -> Top += Vy;
        Ball -> Left += Vx;
-       ScoreBoard->Caption = "ZIELONY    "+IntToStr(greenPlayerScore)+" : "+IntToStr(redPlayerScore)+"    CZERWONY";
-       Runda->Caption = "Runda : "+IntToStr(turnNumber);
-       BounceCounter->Caption = "Liczba odbiæ : " +IntToStr(bounceCounter);
+
        // skucha lewej paletki
        if(Ball->Left + Ball->Width <= LeftPaddle->Left + LeftPaddle->Width - 10)
        {
          BallTimer->Enabled = false;
          Ball->Visible = false;
-         Button1->Caption = "Punkt zdobywa gracz "+ rightPlayerName + "!";
+         ScorePoint->Caption = "Punkt zdobywa gracz "+ rightPlayerName + "!";
          redPlayerScore ++;
-         Button1->Visible = true;
-         isPlayerFailed = true;
+         ScorePoint->Visible = true;
          turnNumber++;
+         PlaySound(TEXT("ScorePoint.wav"), NULL, SND_FILENAME | SND_ASYNC);
        }
 
        // odbicie od gornej sciany
@@ -55,18 +54,21 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
                 Vy *= -1;
        }
        //odbicie od dolnej scianki
-       if (Ball->Top + Ball->Height >= LowerBound->Top) {Vy *= -1; }
+       if (Ball->Top + Ball->Height >= LowerBound->Top)
+       {
+                Vy *= -1;
+       }
 
        // skucha  prawej paletki
        if (Ball->Left + Ball->Width >= RightPaddle->Left + RightPaddle->Width + 15)
        {
                 BallTimer->Enabled = false;
                 Ball->Visible = false;
-                Button1->Caption = "Punkt zdobywa gracz "+leftPlayerName+ "!";
+                ScorePoint->Caption = "Punkt zdobywa gracz "+leftPlayerName+ "!";
                 greenPlayerScore ++;
-                Button1->Visible = true;
-                isPlayerFailed = true;
+                ScorePoint->Visible = true;
                 turnNumber++;
+                PlaySound(TEXT("ScorePoint.wav"), NULL, SND_FILENAME | SND_ASYNC);
        }
 
        //odbicie od  lewej paletki
@@ -85,6 +87,7 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
          }
        }
        bounceCounter ++;
+       PlaySound(TEXT("pingPong.wav"), NULL, SND_FILENAME | SND_ASYNC);
    }
       //odbicie od  prawej paletki
   else if(Ball->Top+Ball->Height/2 > RightPaddle->Top &&
@@ -102,10 +105,7 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
          }
        }
         bounceCounter ++;
-   }
-   if(isPlayerFailed)
-   {
-
+        PlaySound(TEXT("pingPong.wav"), NULL, SND_FILENAME | SND_ASYNC);
    }
 }
 //---------------------------------------------------------------------------
@@ -167,51 +167,58 @@ void __fastcall TForm1::rightPaddleDownTimer(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Button1Click(TObject *Sender)
+void __fastcall TForm1::ScorePointClick(TObject *Sender)
 {
           Ball -> Left = Board->Width/2 ;
           Ball -> Top = Board->Top + Board->Height/2  ;
           Ball->Visible = true;
-          Vx = -8;
-          Vy = -8;
+          Vx = -6;
+          Vy = -6;
           BallTimer->Enabled = true;
-          Button1->Visible=false;
+          LeftPaddle->Enabled = true;
+          RightPaddle->Enabled = true;
+          ScorePoint->Visible=false;
 }
 //---------------------------------------------------------------------------
 
-
 void __fastcall TForm1::NewGameClick(TObject *Sender)
 {
-      BallTimer -> Enabled = false;
-    if (Application -> MessageBox("Czy na pewno chcesz rozpocz¹æ grê od nowa?",
+   BallTimer -> Enabled = false;
+  if(greenPlayerScore != 0 || redPlayerScore != 0)
+  {
+      if (Application -> MessageBox("Czy na pewno chcesz rozpocz¹æ now¹ grê ?",
         "PotwierdŸ", MB_YESNO | MB_ICONQUESTION) == IDYES)
     {
       turnNumber = 1;
       bounceCounter = 0;
-      ScoreBoard->Caption = "ZIELONY    "+IntToStr(greenPlayerScore)+" : "+IntToStr(redPlayerScore)+"    CZERWONY";
-      Runda -> Caption = "Runda: " + IntToStr(turnNumber);
       greenPlayerScore = 0;
       redPlayerScore = 0;
+      Vx = -6;
+      Vy = -6;
+      ScoreBoard->Visible = true;
+      RoundBoard->Visible = true;
+      ScoreBoard->Caption = "ZIELONY    "+IntToStr(greenPlayerScore)+" : "+IntToStr(redPlayerScore)+"    CZERWONY";
+      RoundBoard -> Caption = "Runda: " + IntToStr(turnNumber);
       LeftPaddle->Enabled = true;
       RightPaddle->Enabled = true;
-      Ball -> Left = Board->Width/2 ;
-      Ball -> Top = Board->Top + Board->Height/2  ;
       Ball->Visible = true;
-      Vx = -8;
-      Vy = -8;
       BallTimer->Enabled = true;
-      Button1->Visible=false;
-    }
-    else
-    {
-     BallTimer -> Enabled = true;LeftPaddle->Enabled = true;
-      RightPaddle->Enabled = true;
       Ball -> Left = Board->Width/2 ;
       Ball -> Top = Board->Top + Board->Height/2  ;
-      Ball->Visible = true;
-      Vx = -8;
-      Vy = -8;
-      Button1->Visible=false;
+      ScorePoint->Visible=false;
+    }
+  }
+  else
+    {
+     BallTimer -> Enabled = true;
+     LeftPaddle->Enabled = true;
+     RightPaddle->Enabled = true;
+     Ball -> Left = Board->Width/2 ;
+     Ball -> Top = Board->Top + Board->Height/2  ;
+     Ball->Visible = true;
+     Vx = -6;
+     Vy = -6;
+     ScorePoint->Visible=false;
      }
 }
 //---------------------------------------------------------------------------
@@ -227,12 +234,67 @@ void __fastcall TForm1::PauzaClick(TObject *Sender)
 void __fastcall TForm1::EndGameClick(TObject *Sender)
 {
         BallTimer -> Enabled = false;
-  if (Application -> MessageBox("Czy na pewno chcesz zakonczæ program?",
+  if (Application -> MessageBox("Czy na pewno chcesz zakoñczyæ program?",
         "PotwierdŸ", MB_YESNO | MB_ICONQUESTION) == IDYES)
         {
-        Application -> Terminate();
+         Application -> Terminate();
         }
    BallTimer -> Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::FormCreate(TObject *Sender)
+{
+  if(Application->MessageBox(
+    "Witaj w grze PingPong2D."
+    "STEROWANIE :"
+    " * GRACZ ZIELONY : "
+        "  paletka w górê -> 'A' "
+        "  paletka w dó³  -> 'Z' "
+    " * GRACZ CZERWONY : "
+        "  paletka w górê -> strza³ka w górê "
+        "  paletka w dó³  -> strza³aka w dó³ "
+    "Kiedy odbijesz pi³kê œrodkow¹ czêœci¹ paletki, "
+    "zmieni siê jej k¹t lotu i pi³ka przyœpieszy."
+    "Jeœli chcesz zatrzymaæ grê - wciœnij spacjê. Puszczenie spacji wznowi rozgrywkê."
+    "Mi³ej zabawy!","PingPong",MB_OK | MB_ICONWARNING) == IDOK)
+    {
+      Action = caNone;
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::NextRoundClick(TObject *Sender)
+{
+      bounceCounter = 0;
+      ScoreBoard->Caption = "ZIELONY    "+IntToStr(greenPlayerScore)+" : "+IntToStr(redPlayerScore)+"    CZERWONY";
+      RoundBoard -> Caption = "Runda: " + IntToStr(turnNumber);
+      LeftPaddle->Enabled = true;
+      RightPaddle->Enabled = true;
+      BallTimer->Enabled = true;
+      Ball -> Left = Board->Width/2 ;
+      Ball -> Top = Board->Top + Board->Height/2  ;
+      Ball->Visible = true;
+      Vx = -6;
+      Vy = -6;
+      ScorePoint->Visible=false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::HintsClick(TObject *Sender)
+{
+        BallTimer->Enabled = false;
+        ShowMessage("Witaj w grze PingPong2D."
+    "STEROWANIE :"
+    " * GRACZ ZIELONY : "
+        "  paletka w górê -> 'A' "
+        "  paletka w dó³  -> 'Z' "
+    " * GRACZ CZERWONY : "
+        "  paletka w górê -> strza³ka w górê "
+        "  paletka w dó³  -> strza³aka w dó³ "
+    "Kiedy odbijesz pi³kê œrodkow¹ czêœci¹ paletki, "
+    "zmieni siê jej k¹t lotu i pi³ka przyœpieszy."
+    "Jeœli chcesz zatrzymaæ grê - wciœnij spacjê. Puszczenie spacji wznowi rozgrywkê.");
 }
 //---------------------------------------------------------------------------
 
