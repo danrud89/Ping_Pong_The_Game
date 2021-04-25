@@ -348,9 +348,9 @@ void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
    BallTimer -> Enabled = false;
    PlaySound(TEXT("EndGame.wav"), NULL, SND_FILENAME | SND_ASYNC);
     if (Application -> MessageBox("Czy na pewno chcesz zakoñczyæ program?",
-        "PotwierdŸ", MB_YESNO | MB_ICONQUESTION) == IDYES)
+        "PotwierdŸ", MB_YESNO | MB_ICONQUESTION) == IDNO)
         {
-         Application -> Terminate();
+         Action = caNone;
         }
 }
 //---------------------------------------------------------------------------

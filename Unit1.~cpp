@@ -352,6 +352,7 @@ void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
         {
          Application -> Terminate();
         }
+    else Continue->Enabled = true;
 }
 //---------------------------------------------------------------------------
 

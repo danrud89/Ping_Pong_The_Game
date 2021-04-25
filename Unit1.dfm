@@ -4,7 +4,7 @@ object Form1: TForm1
   Width = 1164
   Height = 616
   Align = alClient
-  Caption = 'Form1'
+  Caption = 'PingPong2D'
   Color = clBtnFace
   UseDockManager = True
   DockSite = True
