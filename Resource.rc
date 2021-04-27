@@ -1,0 +1,5 @@
+1 WAVE "snd\StartGame.wav"
+2 WAVE "snd\NextRound.wav"
+3 WAVE "snd\pingPong.wav"
+4 WAVE "snd\ScorePoint.wav"
+5 WAVE "snd\EndGame.wav"

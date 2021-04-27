@@ -9,6 +9,7 @@
 #include <Forms.hpp>
 #include <ExtCtrls.hpp>
 #include <Graphics.hpp>
+#include <MPlayer.hpp>
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {

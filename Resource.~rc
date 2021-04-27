@@ -1,0 +1,5 @@
+100 WAVE "StartGame.wav"
+200 WAVE "NextRound.wav"
+300 WAVE "pingPong.wav"
+400 WAVE "ScorePoint.wav"
+500 WAVE "EndGame.wav"

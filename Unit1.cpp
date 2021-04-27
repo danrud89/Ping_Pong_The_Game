@@ -39,7 +39,7 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        // skucha lewej paletki
        if(Ball->Left + Ball->Width <= LeftPaddle->Left + LeftPaddle->Width - 10)
        {
-         PlaySound(TEXT("ScorePoint.wav"), NULL, SND_FILENAME | SND_ASYNC);
+         PlaySound(MAKEINTRESOURCE(4), HInstance, SND_RESOURCE);
          redPlayerScore ++;
          BallTimer->Enabled = false;
          Ball->Visible = false;
@@ -71,7 +71,7 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        // skucha  prawej paletki
        if (Ball->Left + Ball->Width >= RightPaddle->Left + RightPaddle->Width + 15)
        {
-                PlaySound(TEXT("ScorePoint.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                PlaySound(MAKEINTRESOURCE(4), HInstance, SND_RESOURCE);
                 greenPlayerScore ++;
                 BallTimer->Enabled = false;
                 Ball->Visible = false;
@@ -105,7 +105,7 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
          }
        }
        bounceCounter ++;
-       PlaySound(TEXT("pingPong.wav"), NULL, SND_FILENAME | SND_ASYNC);
+       PlaySound(MAKEINTRESOURCE(3), HInstance, SND_RESOURCE);
    }
       //odbicie od  prawej paletki
    else if(Ball->Top+Ball->Height/2 > RightPaddle->Top &&
@@ -123,7 +123,7 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
          }
        }
         bounceCounter ++;
-        PlaySound(TEXT("pingPong.wav"), NULL, SND_FILENAME | SND_ASYNC);
+        PlaySound(MAKEINTRESOURCE(3), HInstance, SND_RESOURCE);
    }
 }
 //---------------------------------------------------------------------------
@@ -216,6 +216,7 @@ void __fastcall TForm1::NextRoundClick(TObject *Sender)
           Vx = -10;
           BounceCounter->Visible = false;
           NewGame->Enabled = false;
+          PlaySound(MAKEINTRESOURCE(2), HInstance, SND_RESOURCE);
         }
      else
      {
@@ -267,7 +268,7 @@ void __fastcall TForm1::NewGameClick(TObject *Sender)
       Ball -> Top = Board->Top + Board->Height/2  ;
       ScorePoint->Visible=false;
       Sleep(1000);
-      PlaySound(TEXT("StartGame.wav"), NULL, SND_FILENAME | SND_ASYNC);
+      PlaySound(MAKEINTRESOURCE(1), HInstance, SND_RESOURCE);
       NewGame->Enabled = false;
       NextRound->Visible=false;
     }
@@ -287,7 +288,7 @@ void __fastcall TForm1::NewGameClick(TObject *Sender)
      ScorePoint->Visible=false;
      NewGame->Enabled = false;
      NextRound->Visible=false;
-     PlaySound(TEXT("StartGame.wav"), NULL, SND_FILENAME | SND_ASYNC);
+     PlaySound(MAKEINTRESOURCE(1), HInstance, SND_RESOURCE);
      }
 }
 //---------------------------------------------------------------------------
@@ -346,7 +347,7 @@ void __fastcall TForm1::ContinueClick(TObject *Sender)
 void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
 {
    BallTimer -> Enabled = false;
-   PlaySound(TEXT("EndGame.wav"), NULL, SND_FILENAME | SND_ASYNC);
+   PlaySound(MAKEINTRESOURCE(5), HInstance, SND_RESOURCE);
     if (Application -> MessageBox("Czy na pewno chcesz zakoñczyæ program?",
         "PotwierdŸ", MB_YESNO | MB_ICONQUESTION) == IDNO)
         {
@@ -354,5 +355,6 @@ void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
         }
 }
 //---------------------------------------------------------------------------
+
 
 

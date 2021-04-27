@@ -5,12 +5,12 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="Project1.exe"/>
     <OBJFILES value="Project1.obj Unit1.obj"/>
-    <RESFILES value="Project1.res"/>
+    <RESFILES value="Project1.res Resource.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) Unit1.dfm"/>
     <LIBFILES value=""/>
     <LIBRARIES value=""/>
-    <SPARELIBS value="vcl.lib rtl.lib"/>
+    <SPARELIBS value="vcl.lib rtl.lib vclx.lib"/>
     <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi bcbsmp.bpi dclocx.bpi"/>
     <PATHCPP value=".;"/>
     <PATHPAS value=".;"/>
@@ -46,6 +46,12 @@
       <FILE FILENAME="Project1.res" FORMNAME="" UNITNAME="Project1.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Project1.cpp" FORMNAME="" UNITNAME="Project1" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Unit1.cpp" FORMNAME="Form1" UNITNAME="Unit1" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="snd\EndGame.wav" FORMNAME="" UNITNAME="EndGame.wav" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="snd\NextRound.wav" FORMNAME="" UNITNAME="NextRound.wav" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="snd\pingPong.wav" FORMNAME="" UNITNAME="pingPong.wav" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="snd\ScorePoint.wav" FORMNAME="" UNITNAME="ScorePoint.wav" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="snd\StartGame.wav" FORMNAME="" UNITNAME="StartGame.wav" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Resource.rc" FORMNAME="" UNITNAME="Resource.rc" CONTAINERID="RCCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
